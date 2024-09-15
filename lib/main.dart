@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
-      initialRoute: RoutesName.basketApp,
+      initialRoute: RoutesName.calculatorApp,
       onGenerateRoute: AppRoute.generate,
     );
   }

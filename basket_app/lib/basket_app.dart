@@ -10,146 +10,154 @@ class BasketAppScreen extends StatefulWidget {
 }
 
 class _BasketAppScreenState extends State<BasketAppScreen> {
-  int a = 0, b = 0;
+  int x = 0;
+  int y = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.orange,
-        title: Text(
-          "Basketball Points Counter",
-          style: TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.white, fontSize: 24),
-        ),
-      ),
-      body: Padding(
-        padding: EdgeInsets.fromLTRB(20, 45, 20, 40),
+        body: SafeArea(
+            child: Padding(
+      padding: EdgeInsets.symmetric(vertical: 0),
+      child: Center(
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Team A",
-                        style: TextStyle(
-                          fontSize: 43,
-                        )),
-                    Text("$a",
-                        style: TextStyle(
-                          fontSize: 170,
-                        )),
-                    Container(
-                      height: 175,
-                      width: 150,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          btn(
-                              onPressed: () {
-                                setState(() {
-                                  a += 1;
-                                });
-                              },
-                              data: "Add 1 Point "),
-                          btn(
-                              onPressed: () {
-                                setState(() {
-                                  a += 2;
-                                });
-                              },
-                              data: "Add 2 Point "),
-                          btn(
-                              onPressed: () {
-                                setState(() {
-                                  a += 3;
-                                });
-                              },
-                              data: "Add 3 Point ")
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                Divider(
-                  color: Colors.black, 
-                  thickness: 2, 
-                //   indent: 30, 
-                //   endIndent: 15, 
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Team B",
-                        style: TextStyle(
-                          fontSize: 43,
-                        )),
-                        
-                    Text("$b",
-                        style: TextStyle(
-                          fontSize: 170,
-                        )),
-                    Container(
-                      height: 175,
-                      width: 150,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          btn(
-                              onPressed: () {
-                                setState(() {
-                                  b += 1;
-                                });
-                              },
-                              data: "Add 1 Point "),
-                          btn(
-                              onPressed: () {
-                                setState(() {
-                                  b += 2;
-                                });
-                              },
-                              data: "Add 2 Point "),
 
-                          btn(
-                              onPressed: () {
-                                setState(() {
-                                  b += 3;
-                                });
-                              },
-                              data: "Add 3 Point "),
-                        ],
-                      ),
-                    )
+            Container(
+              alignment: Alignment.centerLeft,
+              height: 45,
+              padding: EdgeInsets.only(left: 15),
+              decoration: BoxDecoration(color: Colors.orange, boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2), // Shadow color
+                  spreadRadius: 0, // How much the shadow spreads
+                  blurRadius: 6, // How soft the shadow looks
+                  offset: Offset(0, 4), // Shadow position (x, y)
+                ),
+              ]),
+              child: Text(
+                'Basketball points counter',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            Padding(
+                padding: EdgeInsets.symmetric(vertical: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    mycol('Team A', true),
+
+
+                   Container(
+                    height: 336,
+                    child: VerticalDivider(
+                      width: 50,
+                      thickness: 2,
+
+
+                    ),
+
+                   ),
+
+
+                    mycol('Team B', false),
                   ],
-                )
-              ],
-            ),
-            SizedBox(
-              height: 80,
-            ),
-            btn(
+                )),
+
+
+
+           Padding(padding: EdgeInsets.symmetric(vertical: 10),
+           child:  MyBtn(
+                data: 'Reset',
                 onPressed: () {
                   setState(() {
-                    a = 0;
-                    b = 0;
+                    x = 0;
+                    y = 0;
                   });
-                },
-                data: "Reset"),
+                }),)
           ],
         ),
       ),
-    );
+    )));
   }
 
-  MaterialButton btn(
-      {required void Function()? onPressed, required String data}) {
+  Column mycol(String data, bool t) {
+   
+    return Column(
+      children: [
+        Text(
+          data,
+          style: TextStyle(
+              fontSize: 35, color: const Color.fromARGB(255, 81, 29, 25)),
+        ),
+        Text(
+          t ? x.toString() : y.toString(),
+          style: TextStyle(
+            fontSize: 110,
+          ),
+        ),
+        Container(
+          child: Column(
+            children: [
+              MyBtn(
+                  data: 'Add 1 Point',
+                  onPressed: () {
+                    setState(() {
+                      if (t) {
+                        x++;
+                      } else {
+                        y++;
+                      }
+                    });
+                  }),
+              MyBtn(
+                  data: 'Add 2 Point',
+                  onPressed: () {
+                    setState(() {
+                      if (t) {
+                        x += 2;
+                      } else {
+                        y += 2;
+                      }
+                    });
+                  }),
+              MyBtn(
+                  data: 'Add 3 Point',
+                  onPressed: () {
+                    setState(() {
+                      if (t) {
+                        x += 3;
+                      } else {
+                        y += 3;
+                      }
+                    });
+                  })
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class MyBtn extends StatelessWidget {
+  final void Function() onPressed;
+  final String data;
+
+  const MyBtn({required this.data, required this.onPressed, super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialButton(
-      height: 45,
+      
       onPressed: onPressed,
       color: Colors.orange,
-      child: Text(data,
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+      child: Text(
+        data,
+        style: TextStyle(fontSize: 17),
+      ),
     );
   }
 }
